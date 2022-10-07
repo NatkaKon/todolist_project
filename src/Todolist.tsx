@@ -14,6 +14,7 @@ export type TaskType = {
     isDone: boolean
 }
 
+
 export const Todolist = (props: TodolistPropsType) => {
     const [title, setTitle] = useState('')
 
@@ -29,6 +30,24 @@ export const Todolist = (props: TodolistPropsType) => {
             addTaskHandler()
         }
     }
+    const greatChangeFilter = (filterValue: FilterButtonType) => {
+        props.changeFilter(filterValue)
+    }
+//выносим в отдельную переменную map
+    const mapTasks = props.tasks.map(el => {
+        const removeTaskHandler = () => {
+            props.removeTask(el.id)
+        }
+
+        return (
+            <li key={el.id}>
+                <input type="checkbox" checked={el.isDone}/>
+                <span>{el.title}</span>
+                <button onClick={removeTaskHandler}>x
+                </button>
+            </li>
+        )
+    })
     return (<div>
 
             <h3>{props.title}</h3>
@@ -40,32 +59,12 @@ export const Todolist = (props: TodolistPropsType) => {
                 <button onClick={addTaskHandler}>+</button>
             </div>
             <ul>
-                {props.tasks.map(el => {
-                    return (
-                        <li key={el.id}>
-                            <input type="checkbox" checked={el.isDone}/>
-                            <span>{el.title}</span>
-                            <button onClick={() => {
-                                props.removeTask(el.id)
-                            }}>x
-                            </button>
-                        </li>
-                    )
-                })}
+                {mapTasks}
             </ul>
             <div>
-                <button onClick={() => {
-                    props.changeFilter('All')
-                }}>All
-                </button>
-                <button onClick={() => {
-                    props.changeFilter('Active')
-                }}>Active
-                </button>
-                <button onClick={() => {
-                    props.changeFilter('Completed')
-                }}>Completed
-                </button>
+                <button onClick={() => greatChangeFilter('All')}>All</button>
+                <button onClick={() => greatChangeFilter('Active')}>Active</button>
+                <button onClick={() => greatChangeFilter('Completed')}>Completed</button>
             </div>
         </div>
     )
