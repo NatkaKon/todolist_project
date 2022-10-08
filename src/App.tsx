@@ -12,6 +12,12 @@ function App() {
         {id: v1(), title: 'JS', isDone: true},
         {id: v1(), title: 'REACT', isDone: false}
     ])
+
+    const changeInput=(id:string, newIsDone:boolean)=> {
+        setTasks(tasks.map(el=> el.id===id? {...el, isDone:newIsDone} :el))
+
+    }
+
     const addTask = (newTitle: string) => {
         let newTask = {id: v1(), title: newTitle, isDone: false}
         setTasks([newTask, ...tasks])
@@ -38,6 +44,7 @@ function App() {
         setFilter(filterValue)
     }
 
+
     return (
         <div className="App">
             <Todolist
@@ -46,7 +53,7 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
-
+                changeInput={changeInput}
             />
 
         </div>
