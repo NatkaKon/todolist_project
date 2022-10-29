@@ -8,7 +8,7 @@ type PropsType = {
 
 export const AddItemForm = (props: PropsType) => {
 
-    const {callBack}=props //деструктцризация пропсов
+    const {callBack} = props //деструктцризация пропсов
 
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)

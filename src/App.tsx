@@ -37,6 +37,14 @@ function App() {
         ]
     });
 
+    const editTask = (todoListID: string, id: string, newTitle: string) => {
+        setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === id ? {...el, title: newTitle} : el)})
+    }
+
+    const editTodoListTitle = (todoListID: string, newTitle: string) => {
+        setTodoLists(todoLists.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
+    }
+
     const changeStatus = (todoListID: string, id: string, newIsDone: boolean) => {
         setTasks({...tasks, [todoListID]: tasks[todoListID].map(el => el.id === id ? {...el, isDone: newIsDone} : el)})
     }
@@ -93,6 +101,8 @@ function App() {
                         changeInput={changeStatus}
                         filter={el.filter}
                         removeTodoList={removeTodoList}
+                        editTask={editTask}
+                        editTodoListTitle={editTodoListTitle}
                     />
                 )
             })}
