@@ -2,8 +2,9 @@ import React, {ChangeEvent, useState} from 'react';
 import {FilterButtonType} from './App';
 import styles from './Todolist.module.css'
 import {AddItemForm} from './components/AddItemForm';
+import {EditableSpan} from './EditableSpan';
 
-type TodolistPropsType = {
+export type TodolistPropsType = {
     todoListID: string
     id: string
     title: string
@@ -46,8 +47,8 @@ export const Todolist = (props: TodolistPropsType) => {
 
     }
 
-    const addTaskHandler=(newTitle: string)=> {
-        props.addTask(props.todoListID,newTitle )
+    const addTaskHandler = (newTitle: string) => {
+        props.addTask(props.todoListID, newTitle)
 
     }
     return <div>
@@ -55,17 +56,7 @@ export const Todolist = (props: TodolistPropsType) => {
             {props.title}
             <button onClick={removeTodoListHandler}>x</button>
         </h3>
-       <AddItemForm callBack={addTaskHandler}/>
-        {/*<div>*/}
-        {/*    <input*/}
-        {/*        className={error ? styles.error : ''}*/}
-        {/*        value={title}*/}
-        {/*        onChange={onChangeHandler}*/}
-        {/*        onKeyDown={onKeyDownHandler}*/}
-        {/*    />*/}
-        {/*    <button onClick={addTaskHandler}>+</button>*/}
-        {/*</div>*/}
-        {/*{error && <div className={styles.errorMessage}>{error}</div>}*/}
+        <AddItemForm callBack={addTaskHandler}/>
         <ul>
             {props.tasks.map(el => {
                 const changeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +68,8 @@ export const Todolist = (props: TodolistPropsType) => {
                         <input
 
                             type="checkbox" checked={el.isDone} onChange={changeInputHandler}/>
-                        <span>{el.title}</span>
+                        <EditableSpan title={el.title}/>
+
                         <button onClick={() => removeTaskHandler(el.id)}>x
                         </button>
                     </li>
@@ -96,3 +88,5 @@ export const Todolist = (props: TodolistPropsType) => {
         </div>
     </div>
 }
+
+

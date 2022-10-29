@@ -46,11 +46,11 @@ function App() {
         setTasks({...tasks, [todoListID]: [newTask, ...tasks[todoListID]]})
     }
 
-    const addTodoList = (newTitle:string) => {
+    const addTodoList = (newTitle: string) => {
         const newTodoListID = v1()
-        const newTodoList:TodoListsType = {id: newTodoListID, title: newTitle, filter: 'all'}
+        const newTodoList: TodoListsType = {id: newTodoListID, title: newTitle, filter: 'all'}
         setTodoLists([newTodoList, ...todoLists])
-        setTasks({[newTodoListID]:[],...tasks})
+        setTasks({[newTodoListID]: [], ...tasks})
     }
 
     const removeTask = (todoListID: string, taskID: string) => {
@@ -67,9 +67,7 @@ function App() {
     return (
         <div className="App">
 
-            {/*<AddItemForm todoListID={'1111'} addTask={() => {addTodoList(newTitle)*/}
-            {/*}}/>*/}
-<AddItemForm callBack={addTodoList}/>
+            <AddItemForm callBack={addTodoList}/>
             {todoLists.map(el => {
                 let filteredTasks = tasks[el.id]
 
