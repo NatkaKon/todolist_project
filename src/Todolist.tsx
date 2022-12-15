@@ -75,14 +75,14 @@ export const Todolist = (props: TodolistPropsType) => {
                 }
 
                 return (
-                    <li className={el.isDone ? styles.isDone : ''}
+                    <ul className={el.isDone ? styles.isDone : ''}
                         key={el.id}>
                         <Checkbox checked={el.isDone} onChange={changeInputHandler}/>
                         <EditableSpan title={el.title} callBack={editTaskHandler}/>
                         <IconButton onClick={() => removeTaskHandler(el.id)}>
                             <Delete fontSize="small"/>
                         </IconButton>
-                    </li>
+                    </ul>
                 )
             })
             }
