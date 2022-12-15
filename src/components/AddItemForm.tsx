@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import styles from '../Todolist.module.css';
+import {Button, TextField} from '@mui/material';
 
 type PropsType = {
     callBack: (title: string) => void
@@ -8,7 +9,7 @@ type PropsType = {
 
 export const AddItemForm = (props: PropsType) => {
 
-    const {callBack} = props //деструктцризация пропсов
+    const {callBack} = props //деструктуризация пропсов
 
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -35,15 +36,19 @@ export const AddItemForm = (props: PropsType) => {
     return (
         <div>
             <div>
-                <input
-                    className={error ? styles.error : ''}
+                <TextField
+                    variant='outlined'
                     value={title}
+                    // className={error ? styles.error : ''}
                     onChange={onChangeHandler}
                     onKeyDown={onKeyDownHandler}
+                    size={'small'}
+                    error={!!error}
+                    label={error ?'Title is required':'type your text...'}
+
                 />
-                <button onClick={addTaskHandler}>+</button>
+                <Button onClick={addTaskHandler} variant='contained' color='primary' size='small'>+</Button>
             </div>
-            {error && <div className={styles.errorMessage}>{error}</div>}
         </div>
     );
 };
