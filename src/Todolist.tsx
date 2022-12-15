@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import {FilterButtonType} from './App';
 import styles from './Todolist.module.css'
 import {AddItemForm} from './components/AddItemForm';
-import {EditableSpan} from './EditableSpan';
+import {EditableSpan} from './components/EditableSpan';
 
 export type TodolistPropsType = {
     todoListID: string
