@@ -1,4 +1,11 @@
+My project as Frontend Developer
+Stack: React / Redux / TypeScript / JavaScript / MUI / Axios
+https://natkakon.github.io/todolist_project/
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 
 ## Available Scripts
 
