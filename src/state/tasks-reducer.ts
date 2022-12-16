@@ -25,6 +25,11 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].filter(el => el.id !== action.payload.id)
             }
+        case 'ADD-TASK':
+            return {
+                ...state,
+              [action.payload.todolistId]:[{id:v1(), title: action.payload.title, isDone:false}, ...state[action.payload.todolistId]]
+            }
         default:
             throw new Error('I don\'t understand this type')
     }
