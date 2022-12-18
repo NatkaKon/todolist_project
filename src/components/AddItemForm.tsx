@@ -1,16 +1,16 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import styles from '../Todolist.module.css';
 import {Button, TextField} from '@mui/material';
 
 type PropsType = {
-    callBack: (title: string) => void
+    addItem: (title: string) => void
 }
 
 
-export const AddItemForm = (props: PropsType) => {
+export const AddItemForm = memo((props: PropsType) => {
+    console.log('AddItemForm called compon')
 
-
-    const {callBack} = props //деструктуризация пропсов
+    const {addItem} = props //деструктуризация пропсов
 
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -20,6 +20,7 @@ export const AddItemForm = (props: PropsType) => {
         setTitle(e.currentTarget.value)
     }
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (error) setError(null);
         if (e.key === 'Enter') {
             addTaskHandler()
         }
@@ -27,7 +28,7 @@ export const AddItemForm = (props: PropsType) => {
     const addTaskHandler = () => {
         let newTitle = title.trim()
         if (newTitle !== '') {
-            callBack(newTitle)
+            addItem(newTitle)
             setTitle('')
         } else {
             setError('Title is required')
@@ -52,5 +53,5 @@ export const AddItemForm = (props: PropsType) => {
             </div>
         </div>
     );
-};
+});
 
