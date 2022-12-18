@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -32,18 +32,18 @@ function AppWithRedux() {
     let todolistId1 = v1();
     let todolistId2 = v1();
 
-    let todolists = useSelector<AppRootStateType,TodolistType[]>(state => state.todolists)
-    let tasks = useSelector<AppRootStateType,TasksStateType>(state => state.tasks)
+    let todolists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
+    let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
 
     function removeTask(id: string, todolistId: string) {
         dispatch(removeTaskAC(id, todolistId))
     }
 
-    function addTask(title: string, todolistId: string) {
+    const addTask=useCallback((title: string, todolistId: string)=> {
         dispatch(addTaskAC(title, todolistId))
-    }
+    },[dispatch])
 
     function changeStatus(id: string, isDone: boolean, todolistId: string) {
         dispatch(changeTaskStatusAC(id, isDone, todolistId))
@@ -66,9 +66,9 @@ function AppWithRedux() {
         dispatch(ChangeTodolistTitleAC(id, title))
     }
 
-    function addTodolist(title: string) {
+    const addTodolist = useCallback((title: string) => {
         dispatch(AddTodolistAC(title))
-    }
+    }, [dispatch])
 
     return (
         <div className="App">

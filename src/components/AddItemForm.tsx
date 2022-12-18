@@ -9,6 +9,7 @@ type PropsType = {
 
 export const AddItemForm = (props: PropsType) => {
 
+
     const {callBack} = props //деструктуризация пропсов
 
     let [title, setTitle] = useState('')
