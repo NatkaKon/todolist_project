@@ -10,7 +10,6 @@ export type TaskPropsType = {
     removeTask: (taskId: string) => void
     changeTaskStatus: (taskId: string, status: boolean) => void
     changeTaskTitle: (taskId: string, title: string) => void
-
 }
 export const Task = memo((props: TaskPropsType) => {
 
