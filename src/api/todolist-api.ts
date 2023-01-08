@@ -32,8 +32,8 @@ export const todolistAPI = {
     createTask(todolistId: string, title: string) {
         return instance.post<{item:string}, AxiosResponse<ResponseType<{item:TaskType}>>>(`/todo-lists/${todolistId}/tasks`, {title},)
     },
-    updateTask(todolistId: string, taskId: string, title: string) {
-        return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{item:TaskType}>>>(`todo-lists/${todolistId}/tasks/${taskId}`, {title})
+    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+        return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{item:TaskType}>>>(`todo-lists/${todolistId}/tasks/${taskId}`, {model})
     },
 }
 
