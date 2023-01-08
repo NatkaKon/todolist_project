@@ -8,7 +8,7 @@ import {Menu} from '@mui/icons-material';
 import {
     AddTodolistAC,
     ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC, fetchTodolistsThunk,
+    ChangeTodolistTitleAC, fetchTodolistsThunkTC,
     FilterValuesType,
     RemoveTodolistAC,
     TodolistDomainType,
@@ -25,7 +25,7 @@ export type TasksStateType = {
 function AppWithRedux() {
 
     useEffect(() => {
-        dispatch(fetchTodolistsThunk)
+        dispatch(fetchTodolistsThunkTC())
     }, [])
 
     let todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
