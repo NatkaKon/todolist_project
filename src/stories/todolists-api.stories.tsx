@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {todolistAPI} from '../api/todolist-api';
+import { todolistAPI} from '../api/todolist-api';
 
 export default {
     title: 'API'
@@ -92,10 +92,11 @@ export const CreateTask = () => {
 }
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
-    const todolistId = '87e1af40-0a7e-47ec-84ae-9897173abbfe'
-    const taskId='3d42e051-170f-436c-aa43-bdf0021894d0'
+
+    const todolistId = '83ad50ea-06cd-4f70-b4b5-7c2186f36ba0'
+    const taskId='587484cc-4298-4ba9-8d05-7e348ce51827'
     useEffect(() => {
-        todolistAPI.updateTask(todolistId, taskId, 'Happy New Year')
+        todolistAPI.updateTask(todolistId, taskId, {title:'UPDATE', status:0, startDate:'', description:'', priority:0, deadline:''})
             .then((res) => {
                 setState(res.data)
             })
