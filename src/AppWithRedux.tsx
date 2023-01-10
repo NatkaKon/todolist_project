@@ -8,14 +8,14 @@ import {Menu} from '@mui/icons-material';
 import {
     AddTodolistAC,
     ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC, fetchTodolistsThunkTC,
+    ChangeTodolistTitleAC, getTodolistsTC,
     FilterValuesType,
-    RemoveTodolistAC,
-    TodolistDomainType,
+    removeTodolistAC,
+    TodolistDomainType, removeTodolistTC,
 } from './state/todolists-reducer';
 import {
-    changeTaskTitleAC, fetchAddTaskThunkTC,
-    fetchDeleteTaskThunkTC, fetchUpdateTaskThunkTC
+    changeTaskTitleAC, addTaskTC,
+    deleteTaskTC, fetchUpdateTaskThunkTC
 } from './state/tasks-reducer';
 import {AppDispatch, useAppSelector} from './state/store';
 import {TaskStatuses, TaskType} from './api/todolist-api';
@@ -27,7 +27,7 @@ export type TasksStateType = {
 function AppWithRedux() {
 
     useEffect(() => {
-        dispatch(fetchTodolistsThunkTC())
+        dispatch(getTodolistsTC())
     }, [])
 
     let todolists = useAppSelector<TodolistDomainType[]>(state => state.todolists)
@@ -36,11 +36,11 @@ function AppWithRedux() {
 
 
     const removeTask=useCallback((id: string, todolistId: string)=> {
-        dispatch(fetchDeleteTaskThunkTC(todolistId,id))
+        dispatch(deleteTaskTC(todolistId,id))
     },[dispatch])
 
     const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(fetchAddTaskThunkTC(todolistId, title))
+        dispatch(addTaskTC(todolistId, title))
     }, [dispatch])
 
     const changeStatus = useCallback((id: string, status:TaskStatuses, todolistId: string) => {
@@ -56,8 +56,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const removeTodolist = useCallback((id: string) => {
-        let action = RemoveTodolistAC(id)
-        dispatch(action)
+        dispatch(removeTodolistTC(id))
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((id: string, title: string) => {

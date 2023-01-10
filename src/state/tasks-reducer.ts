@@ -59,7 +59,7 @@ export const tasksReducer = (state = initialState, action: ActionsType): TasksSt
 }
 
 // actions
-export const removeTaskAC = (id: string, todolistId: string) => ({
+export const deleteTaskAC = (id: string, todolistId: string) => ({
     type: 'REMOVE-TASK',
     payload: {id, todolistId}
 } as const)
@@ -73,7 +73,7 @@ export const changeTaskStatusAC = (id: string, status: TaskStatuses, todolistId:
         id, status, todolistId
     }
 } as const)
-export const SetTasksAC = (tasks: TaskType[], todolistId: string) => ({
+export const setTasksAC = (tasks: TaskType[], todolistId: string) => ({
     type: 'SET-TASKS',
     payload: {
         tasks, todolistId
@@ -94,20 +94,20 @@ export const changeTaskTitleAC = (id: string, title: string, todolistId: string)
 export const fetchTasksThunkTC = (todolistId: string) => (dispatch: Dispatch) => {
     todolistAPI.getTasks(todolistId)
         .then((res) => {
-            dispatch(SetTasksAC(res.data.items, todolistId))
+            dispatch(setTasksAC(res.data.items, todolistId))
         })
 }
-export const fetchDeleteTaskThunkTC = (todolistId: string, id: string) => (dispatch: Dispatch) => {
+export const deleteTaskTC = (todolistId: string, id: string) => (dispatch: Dispatch) => {
     todolistAPI.deleteTask(todolistId, id)
         .then(() => {
-            dispatch(removeTaskAC(id, todolistId))
+            dispatch(deleteTaskAC(id, todolistId))
         })
 }
-export const fetchAddTaskThunkTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
     todolistAPI.createTask(todolistId, title)
         .then((res) => {
-            const item = res.data.data.item
-            dispatch(addTaskAC(item))
+            const task = res.data.data.item
+            dispatch(addTaskAC(task))
         })
 }
 export const fetchUpdateTaskThunkTC = (todolistId: string, id: string, status: TaskStatuses) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
@@ -131,11 +131,11 @@ export const fetchUpdateTaskThunkTC = (todolistId: string, id: string, status: T
 }
 
 //types
-type RemoveTasksActionType = ReturnType<typeof removeTaskAC>
+type RemoveTasksActionType = ReturnType<typeof deleteTaskAC>
 type AddTaskType = ReturnType<typeof addTaskAC>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
 type ChangeTaskSTitleType = ReturnType<typeof changeTaskTitleAC>
-type SetTasksActionType = ReturnType<typeof SetTasksAC>
+type SetTasksActionType = ReturnType<typeof setTasksAC>
 
 type ActionsType =
     | RemoveTasksActionType

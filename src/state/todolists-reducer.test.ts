@@ -3,7 +3,7 @@ import {
     AddTodolistAC,
     ChangeTodolistFilterAC,
     ChangeTodolistTitleAC, FilterValuesType,
-    RemoveTodolistAC, TodolistDomainType,
+    removeTodolistAC, TodolistDomainType,
     todolistsReducer
 } from './todolists-reducer';
 
@@ -25,7 +25,7 @@ beforeEach(()=> {
 
 test('correct todolist should be removed', () => {
 
-    const endState = todolistsReducer(startState, RemoveTodolistAC(todoListID1))
+    const endState = todolistsReducer(startState, removeTodolistAC(todoListID1))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todoListID2)

@@ -33,7 +33,7 @@ export const todolistsReducer = (state = initialState, action: ActionsType): Tod
 }
 
 //actions
-export const RemoveTodolistAC = (id: string) => ({type: 'REMOVE-TODOLIST', id} as const)
+export const removeTodolistAC = (id: string) => ({type: 'REMOVE-TODOLIST', id} as const)
 export const AddTodolistAC = (title: string) => ({type: 'ADD-TODOLIST', title, todolistId: v1()} as const)
 export const ChangeTodolistTitleAC = (id: string, title: string) => ({
     type: 'CHANGE-TODOLIST-TITLE',
@@ -53,15 +53,22 @@ export const SetTodolistsAC = (todos: TodolistType[]) => ({
 
 //thunks
 
-export const fetchTodolistsThunkTC=()=> (dispatch: Dispatch)=> {
+export const getTodolistsTC=()=> (dispatch: Dispatch)=> {
     todolistAPI.getTodolist()
         .then((res) => {
             dispatch(SetTodolistsAC(res.data))
         })
 }
+export const removeTodolistTC=(todolistId:string)=> (dispatch: Dispatch)=> {
+    todolistAPI.deleteTodolist(todolistId)
+        .then((res) => {
+            dispatch(removeTodolistAC(todolistId))
+        })
+}
+
 
 //types
-export type RemoveTodolistActionType = ReturnType<typeof RemoveTodolistAC>
+export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof AddTodolistAC>
 export type SetTodolistsType=ReturnType<typeof SetTodolistsAC>;
 
