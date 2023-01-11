@@ -7,18 +7,18 @@ import {
     todolistsReducer
 } from './todolists-reducer';
 
-let todoListID1:string
-let todoListID2:string
+let todoListID1: string
+let todoListID2: string
 
 let startState: TodolistDomainType[]
 
-beforeEach(()=> {
+beforeEach(() => {
     todoListID1 = v1()
     todoListID2 = v1()
 
-     startState = [
-        {id: todoListID1, title: 'What to learn', filter: 'all', addedDate:'', order:0},
-        {id: todoListID2, title: 'What bye', filter: 'all', addedDate:'', order:0},
+    startState = [
+        {id: todoListID1, title: 'What to learn', filter: 'all', addedDate: '', order: 0},
+        {id: todoListID2, title: 'What bye', filter: 'all', addedDate: '', order: 0},
     ]
 
 })
@@ -33,13 +33,18 @@ test('correct todolist should be removed', () => {
 })
 
 test('correct todolist should be added', () => {
+    let todolist: TodolistDomainType = {
+        id: 'any id',
+        title: 'New Todolist',
+        filter: 'all',
+        addedDate: '',
+        order: 0,
+    }
 
-    let newTodoListTitle = 'New Todolist'
-
-    const endState = todolistsReducer(startState, addTodolistAC(newTodoListTitle))
+    const endState = todolistsReducer(startState, addTodolistAC(todolist))
 
     expect(endState.length).toBe(3)
-    expect(endState[2].title).toBe(newTodoListTitle)
+    expect(endState[0].title).toBe(todolist.title)
 
 })
 
