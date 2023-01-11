@@ -12,8 +12,8 @@ import {
     TodolistDomainType, removeTodolistTC, addTodolistTC, changeTodolistTitleTC,
 } from './state/todolists-reducer';
 import {
-    changeTaskTitleAC, addTaskTC,
-    deleteTaskTC, fetchUpdateTaskThunkTC
+     addTaskTC,
+    deleteTaskTC, updateTaskTC
 } from './state/tasks-reducer';
 import {AppDispatch, useAppSelector} from './state/store';
 import {TaskStatuses, TaskType} from './api/todolist-api';
@@ -42,11 +42,11 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeStatus = useCallback((id: string, status:TaskStatuses, todolistId: string) => {
-        dispatch(fetchUpdateTaskThunkTC(todolistId, id, status))
+        dispatch(updateTaskTC(todolistId, id, {status}))
     }, [dispatch])
 
     const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        dispatch(changeTaskTitleAC(id, newTitle, todolistId))
+        dispatch(updateTaskTC(todolistId,id, {title:newTitle}))
     }, [dispatch])
 
     const changeFilter = useCallback((value: FilterValuesType, todolistId: string) => {

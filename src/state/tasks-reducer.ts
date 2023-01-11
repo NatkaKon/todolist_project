@@ -1,6 +1,6 @@
 import {TasksStateType} from '../App';
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsType} from './todolists-reducer';
-import {TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from '../api/todolist-api';
+import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer';
+import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from '../api/todolist-api';
 import {Dispatch} from 'redux';
 import {AppRootStateType} from './store';
 
@@ -18,11 +18,11 @@ export const tasksReducer = (state = initialState, action: ActionsType): TasksSt
                 ...state,
                 [action.payload.task.todoListId]: [action.payload.task, ...state[action.payload.task.todoListId]]
             }
-        case 'CHANGE-TASK-STATUS':
+        case 'UPDATE-TASK':
             return {
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId]
-                    .map(el => el.id === action.payload.id ? {...el, status: action.payload.status} : el)
+                    .map(el => el.id === action.payload.id ? {...el, ...action.payload.model} : el)
             }
         case 'CHANGE-TASK-TITLE':
             return {
@@ -67,10 +67,10 @@ export const addTaskAC = (task: TaskType) => ({
     type: 'ADD-TASK',
     payload: {task}
 } as const)
-export const changeTaskStatusAC = (id: string, status: TaskStatuses, todolistId: string) => ({
-    type: 'CHANGE-TASK-STATUS',
+export const updateTaskAC = (id: string, model: UpdateDomainTaskModelType, todolistId: string) => ({
+    type: 'UPDATE-TASK',
     payload: {
-        id, status, todolistId
+        id, model, todolistId
     }
 } as const)
 export const setTasksAC = (tasks: TaskType[], todolistId: string) => ({
@@ -111,39 +111,52 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispa
             dispatch(addTaskAC(task))
         })
 }
-export const fetchUpdateTaskThunkTC = (todolistId: string, id: string, status: TaskStatuses) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+export type UpdateDomainTaskModelType = {
+    title?:string
+    description?: string
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
+}
+
+export const updateTaskTC = (todolistId: string, id: string, domainModel: UpdateDomainTaskModelType) =>
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const tasks = getState().tasks
     const task = tasks[todolistId].find(t => t.id === id)
 
     if (task) {
-        const model: UpdateTaskModelType = {
+        const apiModel: UpdateTaskModelType = {
             title: task.title,
             description: task.description,
             priority: task.priority,
             startDate: task.startDate,
             deadline: task.deadline,
-            status
+            status:task.status,
+            ...domainModel
+
         }
-        todolistAPI.updateTask(todolistId, id, model)
+        todolistAPI.updateTask(todolistId, id, apiModel)
             .then(() => {
-                dispatch(changeTaskStatusAC(id, status, todolistId))
+                dispatch(updateTaskAC(id, domainModel, todolistId))
             })
     }
 }
 
 //types
 type RemoveTasksActionType = ReturnType<typeof deleteTaskAC>
-type AddTaskType = ReturnType<typeof addTaskAC>
-type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
-type ChangeTaskSTitleType = ReturnType<typeof changeTaskTitleAC>
+type AddTaskActionType = ReturnType<typeof addTaskAC>
+type UpdateTaskActionType = ReturnType<typeof updateTaskAC>
+type ChangeTaskSTitleActionType = ReturnType<typeof changeTaskTitleAC>
 type SetTasksActionType = ReturnType<typeof setTasksAC>
 
 type ActionsType =
     | RemoveTasksActionType
-    | AddTaskType
-    | ChangeTaskStatusType
-    | ChangeTaskSTitleType
+    | AddTaskActionType
+    | UpdateTaskActionType
+    | ChangeTaskSTitleActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
-    | SetTodolistsType
+    | SetTodolistsActionType
     | SetTasksActionType

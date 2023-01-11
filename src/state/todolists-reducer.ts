@@ -75,11 +75,11 @@ export const changeTodolistTitleTC=(todolistId:string, title:string)=> (dispatch
 //types
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
-export type SetTodolistsType=ReturnType<typeof SetTodolistsAC>;
+export type SetTodolistsActionType =ReturnType<typeof SetTodolistsAC>;
 
 type ActionsType =
     | RemoveTodolistActionType
     | AddTodolistActionType
     | ReturnType<typeof ChangeTodolistTitleAC>
     | ReturnType<typeof ChangeTodolistFilterAC>
-    | SetTodolistsType
+    | SetTodolistsActionType
