@@ -6,12 +6,10 @@ import AppBar from '@mui/material/AppBar/AppBar';
 import {Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
 import {Menu} from '@mui/icons-material';
 import {
-    addTodolistAC,
-    ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC, getTodolistsTC,
+        ChangeTodolistFilterAC,
+    getTodolistsTC,
     FilterValuesType,
-    removeTodolistAC,
-    TodolistDomainType, removeTodolistTC, addTodolistTC,
+    TodolistDomainType, removeTodolistTC, addTodolistTC, changeTodolistTitleTC,
 } from './state/todolists-reducer';
 import {
     changeTaskTitleAC, addTaskTC,
@@ -60,7 +58,7 @@ function AppWithRedux() {
     }, [dispatch])
 
     const changeTodolistTitle = useCallback((id: string, title: string) => {
-        dispatch(ChangeTodolistTitleAC(id, title))
+        dispatch(changeTodolistTitleTC(id, title))
     }, [dispatch])
 
     const addTodolist = useCallback((title: string) => {
