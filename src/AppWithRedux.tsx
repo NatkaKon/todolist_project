@@ -3,8 +3,15 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {AddItemForm} from './components/AddItemForm';
 import AppBar from '@mui/material/AppBar/AppBar';
-import {Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
-import {Menu} from '@mui/icons-material';
+import Typography from '@mui/material/Typography';
+import  Toolbar from '@mui/material/Toolbar';
+import Paper from '@mui/material/Paper';
+import LinearProgress from '@mui/material/LinearProgress';
+import  IconButton from '@mui/material/IconButton';
+import  Grid  from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import Menu from '@mui/icons-material/Menu';
 import {
         ChangeTodolistFilterAC,
     getTodolistsTC,
@@ -77,6 +84,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                <LinearProgress color="secondary" />
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
