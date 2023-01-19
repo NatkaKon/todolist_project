@@ -24,12 +24,15 @@ import {
 } from './state/tasks-reducer';
 import {AppDispatch, useAppSelector} from './state/store';
 import {TaskStatuses, TaskType} from './api/todolist-api';
+import {RequestStatusType} from './state/app-reducer';
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
 function AppWithRedux() {
+
+    const status =useAppSelector<RequestStatusType>(state => state.app.status)
 
     useEffect(() => {
         dispatch(getTodolistsTC())
@@ -84,7 +87,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-                <LinearProgress color="secondary" />
+                {status === 'loading' && <LinearProgress color="secondary" />}
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: '20px'}}>
