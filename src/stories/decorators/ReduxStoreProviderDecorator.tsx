@@ -72,6 +72,9 @@ const initialGlobalState:AppRootStateType = {
                 completed: true
             }
         ]
+    },
+    app:{
+        status: 'idle'
     }
 }
 
