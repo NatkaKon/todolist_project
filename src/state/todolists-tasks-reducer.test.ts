@@ -10,7 +10,8 @@ test('ids should be equals', () => {
         id: 'anu id',
         order: 0,
         addedDate: '',
-        filter: 'all'
+        filter: 'all',
+        entityStatus:'idle'
     }
 
     const action = addTodolistAC(todolist)
