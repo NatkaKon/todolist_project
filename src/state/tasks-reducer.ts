@@ -3,8 +3,9 @@ import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType}
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from '../api/todolist-api';
 import {Dispatch} from 'redux';
 import {AppRootStateType} from './store';
-import {AppActionsType, setAppErrorAC, setAppStatusAC} from './app-reducer';
+import {AppActionsType, setAppStatusAC} from './app-reducer';
 import {AxiosError} from 'axios';
+import {handleServerAppError} from '../utils/error-utils';
 
 const initialState: TasksStateType = {}
 
@@ -104,17 +105,11 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispa
                 dispatch(addTaskAC(task))
                 dispatch(setAppStatusAC('succeeded'))
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setAppErrorAC(res.data.messages[0]))
-                } else {
-                    dispatch(setAppErrorAC('Some error occurred'))
-                }
-                dispatch(setAppStatusAC('failed'))
+                handleServerAppError(dispatch, res.data)
             }
         })
-        .catch((err:AxiosError) =>{
-            dispatch(setAppErrorAC(err.message))
-            dispatch(setAppStatusAC('failed'))
+        .catch((err: AxiosError) => {
+            handleServerAppError(dispatch, err.message)
         })
 }
 
@@ -166,4 +161,4 @@ type ActionsType =
     | RemoveTodolistActionType
     | SetTodolistsActionType
     | SetTasksActionType
-    |AppActionsType
+    | AppActionsType

@@ -1,7 +1,8 @@
 import {todolistAPI, TodolistType} from '../api/todolist-api';
 import {Dispatch} from 'redux';
-import {AppActionsType, RequestStatusType, setAppErrorAC, setAppStatusAC} from './app-reducer';
+import {AppActionsType, RequestStatusType, setAppStatusAC} from './app-reducer';
 import {AxiosError} from 'axios';
+import {handleServerAppError, handleServerNetworkError} from '../utils/error-utils';
 
 const initialState: TodolistDomainType[] = []
 
@@ -25,7 +26,7 @@ export const todolistsReducer = (state = initialState, action: ActionsType): Tod
         case 'SET-TODOS':
             return action.todos.map(el => ({...el, filter: 'all', entityStatus: 'idle'}))
         case 'CHANGE-TODOLIST-ENTITY-STATUS':
-            return state.map(el=> el.id === action.todoId ?{...el, entityStatus: action.status}:el)
+            return state.map(el => el.id === action.todoId ? {...el, entityStatus: action.status} : el)
         default:
             return state
     }
@@ -64,7 +65,7 @@ export const getTodolistsTC = () => (dispatch: Dispatch) => {
 }
 export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
-    dispatch(ChangeTodolistEntityStatusAC(todolistId,'loading' ))
+    dispatch(ChangeTodolistEntityStatusAC(todolistId, 'loading'))
     todolistAPI.deleteTodolist(todolistId)
         .then(() => {
             dispatch(removeTodolistAC(todolistId))
@@ -79,17 +80,11 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
                 dispatch(addTodolistAC(res.data.data.item))
                 dispatch(setAppStatusAC('succeeded'))
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setAppErrorAC(res.data.messages[0]))
-                } else {
-                    dispatch(setAppErrorAC('Some error occurred'))
-                }
-                dispatch(setAppStatusAC('failed'))
+                handleServerAppError(dispatch, res.data)
             }
         })
-        .catch((err:AxiosError)=> {
-            dispatch(setAppErrorAC(err.message))
-            dispatch(setAppStatusAC('failed'))
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(dispatch, err.message)
         })
 }
 export const changeTodolistTitleTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
