@@ -1,9 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
-import styles from '../Todolist.module.css';
-import {Button, TextField} from '@mui/material';
+import { TextField} from '@mui/material';
+import IconButton from '@mui/material/IconButton/IconButton';
+import {AddBox} from '@mui/icons-material';
 
 type PropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 
@@ -47,9 +49,12 @@ export const AddItemForm = memo((props: PropsType) => {
                     size={'small'}
                     error={!!error}
                     label={error ?'Title is required':'type your text...'}
+                    disabled={props.disabled}
 
                 />
-                <Button onClick={addTaskHandler} variant='contained' color='primary' size='small'>+</Button>
+                <IconButton onClick={addTaskHandler} color='primary'disabled={props.disabled}>
+                    <AddBox/>
+                </IconButton>
             </div>
         </div>
     );
