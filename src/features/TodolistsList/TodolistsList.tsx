@@ -15,16 +15,21 @@ import {
 import {AppDispatch, useAppSelector} from '../../api/store';
 import {addTaskTC, deleteTaskTC, updateTaskTC} from './tasks-reducer';
 import {TasksStateType} from '../../AppWithRedux';
+import {Navigate} from 'react-router-dom';
 
 export const TodolistsList: React.FC = () => {
 
-    useEffect(() => {
-        dispatch(getTodolistsTC())
-    }, [])
-
     let todolists = useAppSelector<TodolistDomainType[]>(state => state.todolists)
     let tasks = useAppSelector<TasksStateType>(state => state.tasks)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
     const dispatch = AppDispatch()
+
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            dispatch(getTodolistsTC())
+        }
+    }, [])
 
 
     const removeTask = useCallback((id: string, todolistId: string) => {
@@ -58,6 +63,11 @@ export const TodolistsList: React.FC = () => {
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistTC(title))
     }, [dispatch])
+
+
+    if (!isLoggedIn) {
+        return <Navigate to={'login'}/>
+    }
 
     return <>
 

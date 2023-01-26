@@ -30,11 +30,17 @@ export const todolistAPI = {
         return instance.delete<DeleteTasksType>(`/todo-lists/${todolistId}/tasks/${taskId}`,)
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<{item:string}, AxiosResponse<ResponseType<{item:TaskType}>>>(`/todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<{ item: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`/todo-lists/${todolistId}/tasks`, {title})
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{item:TaskType}>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
+}
+
+export const authAPI = {
+    login(data:LoginParamsType ) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseType<{userId: number}>>>('auth/login', data)
+    }
 }
 
 //types
@@ -83,20 +89,25 @@ export type TaskType = {
     addedDate: string
 }
 export type UpdateTaskModelType = {
-    title:string
+    title: string
     description: string
     status: TaskStatuses
     priority: TaskPriorities
     startDate: string
     deadline: string
 }
-export type GetTasksResponse={
-    error: string|null
+export type GetTasksResponse = {
+    error: string | null
     totalCount: number
-    items:TaskType[]
+    items: TaskType[]
 }
 
-
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
+}
 
 //удалить то что ниже
 
