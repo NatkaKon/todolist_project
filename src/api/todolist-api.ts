@@ -38,8 +38,11 @@ export const todolistAPI = {
 }
 
 export const authAPI = {
-    login(data:LoginParamsType ) {
-        return instance.post<LoginParamsType, AxiosResponse<ResponseType<{userId: number}>>>('auth/login', data)
+    login(data: LoginParamsType) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', data)
+    },
+    me() {
+        return instance.get<ResponseType<MeResponseType>>('auth/me')
     }
 }
 
@@ -62,12 +65,14 @@ export type GetTaskResponseType = {
     items: TaskType[];
     totalCount: number;
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
     Completed = 2,
     Draft = 3
 }
+
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -75,6 +80,7 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
+
 export type TaskType = {
     description: string
     title: string
@@ -108,23 +114,27 @@ export type LoginParamsType = {
     rememberMe?: boolean
     captcha?: string
 }
-
+export type MeResponseType = {
+    id: number
+    email: string
+    login: string
+}
 //удалить то что ниже
-
+//
 export type DeleteTasksType = {
     resultCode: number
     messages: string[],
     data: {}
 }
-export type CreateTasksType = {
-    item: TaskType[]
-    data: {}
-    messages: string[];
-    resultCode: number;
-}
-export type UpdateTaskType = {
-    data: {}
-    item: TaskType[]
-    messages: string[];
-    resultCode: number;
-}
+// export type CreateTasksType = {
+//     item: TaskType[]
+//     data: {}
+//     messages: string[];
+//     resultCode: number;
+// }
+// export type UpdateTaskType = {
+//     data: {}
+//     item: TaskType[]
+//     messages: string[];
+//     resultCode: number;
+// }

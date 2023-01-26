@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import AppBar from '@mui/material/AppBar/AppBar';
 import Typography from '@mui/material/Typography';
@@ -8,9 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Menu from '@mui/icons-material/Menu';
-import { useAppSelector} from './api/store';
-import { TaskType} from './api/todolist-api';
-import {RequestStatusType} from './api/app-reducer';
+import {AppDispatch, useAppSelector} from './api/store';
+import {TaskType} from './api/todolist-api';
+import {initializeAppTC, RequestStatusType} from './api/app-reducer';
 import {ErrorSnackbar} from './components/ErrorSnackbar/ErrorSnackbar';
 import {Login} from './features/Login/Login';
 import {TodolistsList} from './features/TodolistsList/TodolistsList';
@@ -23,7 +23,12 @@ export type TasksStateType = {
 
 function AppWithRedux() {
 
+    const dispatch = AppDispatch()
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [])
 
     return (
         <div className="App">
@@ -42,11 +47,11 @@ function AppWithRedux() {
             </AppBar>
             <Container fixed>
                 <Routes>
-                    <Route path='/' element={<TodolistsList/>} />
-                    <Route path='/login' element={<Login/>} />
+                    <Route path="/" element={<TodolistsList/>}/>
+                    <Route path="/login" element={<Login/>}/>
 
-                    <Route path='404' element={<h1 style={{textAlign:'center'}}>404: PAGE NOT FOUND</h1>} />
-                    <Route path='*' element= {<Navigate to='404'/>}/>
+                    <Route path="404" element={<h1 style={{textAlign: 'center'}}>404: PAGE NOT FOUND</h1>}/>
+                    <Route path="*" element={<Navigate to="404"/>}/>
                 </Routes>
             </Container>
         </div>

@@ -1,3 +1,9 @@
+import {Dispatch} from 'redux';
+import {authAPI} from './todolist-api';
+import {setIsLoggedInAC} from '../features/Login/auth-reducer';
+import {handleServerAppError} from '../utils/error-utils';
+import {AxiosError} from 'axios';
+
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 // status === 'loading' - показываем крутилку
@@ -35,3 +41,21 @@ export const setAppErrorAC = (error: null | string) => ({
     type: 'APP/SET-ERROR',
     error
 }) as const
+
+
+export const initializeAppTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    authAPI.me()
+        .then(res => {
+            debugger
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedInAC(true));
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(dispatch, res.data)
+            }
+        })
+        .catch((err: AxiosError)=>{
+            handleServerAppError(dispatch, err.message)
+        })
+}
