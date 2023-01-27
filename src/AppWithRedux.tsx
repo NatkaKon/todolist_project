@@ -16,6 +16,7 @@ import {Login} from './features/Login/Login';
 import {TodolistsList} from './features/TodolistsList/TodolistsList';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
+import {logOutTC} from './features/Login/auth-reducer';
 
 
 export type TasksStateType = {
@@ -27,6 +28,7 @@ function AppWithRedux() {
     const dispatch = AppDispatch()
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
     const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
 
     useEffect(() => {
         dispatch(initializeAppTC())
@@ -39,6 +41,9 @@ function AppWithRedux() {
         </div>
     }
 
+    const logOutHandler =()=> {
+        dispatch(logOutTC())
+    }
     return (
         <div className="App">
             <ErrorSnackbar/>
@@ -50,7 +55,9 @@ function AppWithRedux() {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+
+                    {isLoggedIn  &&  <Button color="inherit" onClick={logOutHandler}>Logout</Button>      }
+
                 </Toolbar>
                 {status === 'loading' && <LinearProgress color="secondary"/>}
             </AppBar>
