@@ -15,6 +15,7 @@ import {ErrorSnackbar} from './components/ErrorSnackbar/ErrorSnackbar';
 import {Login} from './features/Login/Login';
 import {TodolistsList} from './features/TodolistsList/TodolistsList';
 import {Navigate, Route, Routes} from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export type TasksStateType = {
@@ -25,10 +26,18 @@ function AppWithRedux() {
 
     const dispatch = AppDispatch()
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
 
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [])
+
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return (
         <div className="App">
