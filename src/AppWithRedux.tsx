@@ -1,13 +1,10 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import AppBar from '@mui/material/AppBar/AppBar';
-import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import LinearProgress from '@mui/material/LinearProgress';
-import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Menu from '@mui/icons-material/Menu';
 import {AppDispatch, useAppSelector} from './api/store';
 import {TaskType} from './api/todolist-api';
 import {initializeAppTC, RequestStatusType} from './api/app-reducer';
@@ -49,14 +46,14 @@ function AppWithRedux() {
             <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
+                    {/*<IconButton edge="start" color="inherit" aria-label="menu">*/}
+                    {/*    <Menu/>*/}
+                    {/*</IconButton>*/}
+                    {/*<Typography variant="h6">*/}
+                    {/*    News*/}
+                    {/*</Typography>*/}
 
-                    {isLoggedIn  &&  <Button color="inherit" onClick={logOutHandler}>Logout</Button>      }
+                    {isLoggedIn  &&  <Button color="inherit" onClick={logOutHandler}>Log out</Button>      }
 
                 </Toolbar>
                 {status === 'loading' && <LinearProgress color="secondary"/>}

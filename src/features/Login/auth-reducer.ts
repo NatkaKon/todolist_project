@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
 import {SetAppErrorType, setAppStatusAC, SetAppStatusType} from '../../api/app-reducer';
 import {authAPI, LoginParamsType} from '../../api/todolist-api';
-import {handleServerAppError} from '../../utils/error-utils';
+import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils';
 import {AxiosError} from 'axios';
 
 
@@ -52,7 +52,7 @@ export const logOutTC = () => (dispatch: Dispatch<ActionsType>) => {
             }
         })
         .catch((err: AxiosError) => {
-            handleServerAppError(dispatch, err.message)
+            handleServerNetworkError(dispatch, err.message)
 
         })
 }
