@@ -1,16 +1,16 @@
-### To-Do List project
+### CRUD To-Do List project
 
-My project as Frontend Developer
-CRUD Todo App with Tech-Stack:
 
-*React
-*Redux
-*TypeScript
-*Axios
-*React Thunk
-*Material UI
-*React-router-dom
-*Formik
+**Tech-Stack:**
+
+* React
+* Redux
+* TypeScript
+* Axios
+* React Thunk
+* Material UI
+* React-router-dom
+* Formik
 
 
 ## DEMO
